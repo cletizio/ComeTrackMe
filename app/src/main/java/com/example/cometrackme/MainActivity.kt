@@ -27,7 +27,8 @@ class MainActivity: ComponentActivity(), OnMapReadyCallback {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ){ isGranted: Boolean ->
-        if(isGranted){getDeviceLocation()
+        if(isGranted){
+            // Permission is granted. Continue the action or workflow
         }else{
             Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
         }
@@ -51,7 +52,7 @@ class MainActivity: ComponentActivity(), OnMapReadyCallback {
     private fun checkLocationPermission(){
         when{
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                    PackageManager.PERMISSION_GRANTED -> { getDeviceLocation()
+                    PackageManager.PERMISSION_GRANTED -> { // Use the API that requires the permission.
             }
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -92,6 +93,7 @@ class MainActivity: ComponentActivity(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED) {
             googleMap.isMyLocationEnabled = true
+            getDeviceLocation()
         }
     }
 
