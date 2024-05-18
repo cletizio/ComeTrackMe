@@ -49,6 +49,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    secrets{
+        propertiesFileName = "secrets.properties"
+
+        defaultPropertiesFileName = "local.defaults.properties"
+
+        // Configure the keys to be ignored by the plugin.
+        ignoreList.add("keyToIgnore") // Ignores the key "keyToIgnore"
+        ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "skd.*"
+    }
 }
 
 dependencies {
