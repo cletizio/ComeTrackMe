@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -18,6 +21,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        val secretsPropertiesFile = rootProject.file("secrets.properties")
+        if (secretsPropertiesFile.exists()) {
+            val secrets = Properties()
+            secrets.load(FileInputStream(secretsPropertiesFile))
+            buildConfigField("String", "MAPS_API_KEY", "\"${secrets["MAPS_API_KEY"]}\"")
+        } else {
+            throw GradleException("secrets.properties file not found")
         }
     }
 
@@ -78,5 +90,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // Maps SDK
-    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation (libs.play.services.maps)
 }
